@@ -266,13 +266,29 @@ footer{padding-block:32px 48px;font-size:.9rem;color:var(--soft);display:flex;fl
 .phone a{text-underline-offset:4px}
 @media (max-width:900px){.groups{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:560px){.groups{grid-template-columns:minmax(0,1fr)}.quote{font-size:1.6rem}}
+
+/* compartir con QR */
+.qr-sheet{position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding:calc(16px + env(safe-area-inset-top,0px)) 16px calc(16px + env(safe-area-inset-bottom,0px));background:rgba(28,22,51,.55);backdrop-filter:blur(6px)}
+.qr-card{width:min(380px,100%);background:var(--card);border-radius:28px;padding:28px 24px 22px;display:grid;gap:14px;justify-items:center;text-align:center;box-shadow:0 30px 80px -20px rgba(10,10,40,.5)}
+.qr-card .marks{margin-bottom:2px}
+.qr-card h3{font-size:1.35rem;font-weight:800;letter-spacing:-.02em}
+.qr-card p{color:var(--soft);font-size:.95rem}
+.qr-box{background:#FFFFFF;padding:16px;border-radius:18px;border:1px solid var(--rule);line-height:0}
+.qr-box img,.qr-box canvas{display:block;width:min(240px,62vw);height:auto;image-rendering:pixelated}
+.qr-url{font-size:.85rem;font-weight:600;color:var(--ink);overflow-wrap:anywhere;user-select:all}
+.qr-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%;margin-top:4px}
+.qr-actions .btn{min-height:46px;padding:0 12px;font-size:.95rem}
+.qr-msg{min-height:1.3em;font-size:.88rem;color:var(--soft)}
+.top-actions{display:flex;gap:8px;align-items:center}
+.btn.qr-open-top{min-height:40px;padding:0 16px;font-size:.95rem}
+@media (max-width:560px){.btn.qr-open-top{display:none}}
 </style>
 
 <div class="faja" aria-hidden="true"><canvas class="jaspe"></canvas></div>
 <div class="wrap">
   <header class="top">
     <a class="me" href="#inicio"><span class="marks" aria-hidden="true"><i class="sh circle" style="--s:12px"></i><i class="sh square" style="--s:12px"></i><i class="sh hpill" style="--s:12px"></i><i class="sh vpill" style="--s:12px"></i></span><span>Creamos Guatemala</span></a>
-    <a class="btn" href="#contacto">Hablemos</a>
+    <div class="top-actions"><button class="btn qr-open qr-open-top" type="button">Mostrar QR</button><a class="btn" href="#contacto">Hablemos</a></div>
   </header>
 
   <main id="inicio">
@@ -285,6 +301,7 @@ footer{padding-block:32px 48px;font-size:.9rem;color:var(--soft);display:flex;fl
         <div class="actions">
           <button class="btn solid copy" type="button">Copiar mi correo</button>
           <a class="btn" href="https://wa.me/50255703339" target="_blank" rel="noopener">WhatsApp</a>
+          <button class="btn qr-open" type="button">Mostrar QR</button>
         </div>
       </div>
       <div class="hero-stats">
@@ -431,6 +448,7 @@ footer{padding-block:32px 48px;font-size:.9rem;color:var(--soft);display:flex;fl
           <button class="btn solid copy" type="button">Copiar</button>
         </div>
         <p class="phone">Apoyo Emocional · <a href="https://wa.me/50255703339" target="_blank" rel="noopener">(+502) 5570-3339</a></p>
+        <button class="btn qr-open" type="button" style="justify-self:start">Mostrar mi QR</button>
         <div class="links">
           <a href="https://www.instagram.com/creamos_guatemala/" target="_blank" rel="noopener">Instagram</a>
           <a href="https://www.linkedin.com/company/creamosfuturosguatemala/" target="_blank" rel="noopener">LinkedIn</a>
@@ -449,6 +467,22 @@ footer{padding-block:32px 48px;font-size:.9rem;color:var(--soft);display:flex;fl
   </footer>
 </div>
 
+<div class="qr-sheet" id="qrSheet" hidden role="dialog" aria-modal="true" aria-labelledby="qrTitle">
+  <div class="qr-card">
+    <span class="marks" aria-hidden="true"><i class="sh circle" style="--s:12px"></i><i class="sh square" style="--s:12px"></i><i class="sh hpill" style="--s:12px"></i><i class="sh vpill" style="--s:12px"></i></span>
+    <h3 id="qrTitle">Gerber Alvarez</h3>
+    <p>Escanea con la cámara del teléfono para abrir esta página.</p>
+    <div class="qr-box" id="qrBox"></div>
+    <span class="qr-url" id="qrUrl">https://adrian-9856.github.io/landing-gerber/</span>
+    <div class="qr-actions">
+      <button class="btn solid" id="qrShare" type="button">Compartir enlace</button>
+      <button class="btn" id="qrClose" type="button">Cerrar</button>
+    </div>
+    <span class="qr-msg" id="qrMsg" role="status" aria-live="polite"></span>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
 // Jaspe: cada hilo (fila) corre un poco su dibujo, como el amarrado a mano del corte típico.
 (function(){
@@ -492,6 +526,36 @@ document.querySelectorAll('.copy').forEach(function(btn){
     try { navigator.clipboard.writeText(text).then(function(){ done('Correo copiado'); }, fallback); } catch(e){ fallback(); }
   });
 });
+
+// Compartir con QR: el código siempre apunta al enlace público de GitHub Pages.
+(function(){
+  var sheet = document.getElementById('qrSheet'), box = document.getElementById('qrBox');
+  var url = document.getElementById('qrUrl').textContent.trim(), made = false, lastFocus = null;
+  var msg = document.getElementById('qrMsg');
+  function say(t){ msg.textContent = t; setTimeout(function(){ if (msg.textContent === t) msg.textContent = ''; }, 2600); }
+  function open(){
+    lastFocus = document.activeElement; sheet.hidden = false;
+    if (!made){
+      if (window.QRCode){ new QRCode(box, { text: url, width: 480, height: 480, colorDark: '#1C1633', colorLight: '#FFFFFF', correctLevel: QRCode.CorrectLevel.M }); made = true; }
+      else { box.textContent = 'No se pudo crear el QR. Comparte el enlace de abajo.'; box.style.lineHeight = '1.5'; }
+    }
+    document.getElementById('qrClose').focus();
+  }
+  function close(){ sheet.hidden = true; if (lastFocus) lastFocus.focus(); }
+  document.querySelectorAll('.qr-open').forEach(function(b){ b.addEventListener('click', open); });
+  document.getElementById('qrClose').addEventListener('click', close);
+  sheet.addEventListener('click', function(e){ if (e.target === sheet) close(); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && !sheet.hidden) close(); });
+  document.getElementById('qrShare').addEventListener('click', function(){
+    var title = document.getElementById('qrTitle').textContent + ' · Creamos Guatemala';
+    function copy(){
+      try { navigator.clipboard.writeText(url).then(function(){ say('Enlace copiado'); }, select); } catch(e){ select(); }
+    }
+    function select(){ var r = document.createRange(); r.selectNodeContents(document.getElementById('qrUrl')); var s = getSelection(); s.removeAllRanges(); s.addRange(r); say('Enlace seleccionado: cópialo'); }
+    if (navigator.share){ navigator.share({ title: title, url: url }).catch(function(err){ if (!err || err.name !== 'AbortError') copy(); }); }
+    else copy();
+  });
+})();
 </script>
 
 </body>
