@@ -282,6 +282,19 @@ footer{padding-block:32px 48px;font-size:.9rem;color:var(--soft);display:flex;fl
 .top-actions{display:flex;gap:8px;align-items:center}
 .btn.qr-open-top{min-height:40px;padding:0 16px;font-size:.95rem}
 @media (max-width:560px){.btn.qr-open-top{display:none}}
+
+/* Mi Eelo: material promocional */
+.eelo{background:var(--pink);color:var(--ink);clip-path:polygon(0 0,calc(100% - 56px) 0,100% 56px,100% 100%,0 100%);border-radius:0 0 28px 28px;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:clamp(24px,4vw,48px);align-items:center;padding:clamp(28px,5vw,56px)}
+.eelo .kicker{color:var(--ink)}
+.eelo h2{font-weight:800;font-size:clamp(2rem,4.4vw,3.1rem);line-height:1.04;letter-spacing:-.03em;margin-top:14px}
+.eelo .lead{margin-top:16px;font-size:1.1rem;max-width:44ch}
+.eelo-facts{display:flex;flex-wrap:wrap;gap:12px 28px;margin-top:22px}
+.eelo-facts b{display:block;font-size:1.8rem;font-weight:800;line-height:1;letter-spacing:-.02em}
+.eelo-facts span{font-size:.9rem}
+.eelo .actions{margin-top:26px}
+.eelo .btn{border-color:var(--ink)}
+.tote{width:100%;max-width:300px;justify-self:center;filter:drop-shadow(0 24px 30px rgba(28,22,51,.25))}
+@media (max-width:900px){.eelo{grid-template-columns:minmax(0,1fr)}.tote{max-width:200px;order:-1}}
 </style>
 
 <div class="faja" aria-hidden="true"><canvas class="jaspe"></canvas></div>
@@ -424,6 +437,33 @@ footer{padding-block:32px 48px;font-size:.9rem;color:var(--soft);display:flex;fl
           <li><span class="pin"><i></i></span><div><span class="w">Siempre aprendiendo</span><b>Nos capacitamos para responder a lo que la comunidad necesita</b></div></li>
           <li><span class="pin"><i></i></span><div><span class="w">Un solo equipo</span><b>Adaptamos talleres para apoyar a los demás programas de Creamos</b></div></li>
         </ol>
+      </div>
+    </section>
+
+    <section id="mi-eelo">
+      <div class="eelo">
+        <div>
+          <span class="kicker"><i class="sh hpill" style="--c:var(--ink)"></i>Mi Eelo · empresa social de Creamos</span>
+          <h2>¿Buscas quién te haga material promocional, como tote bags?</h2>
+          <p class="lead">En Mi Eelo producimos textiles personalizados para marcas y organizaciones. Las mujeres que los hacen aprenden el oficio y reciben pago desde el primer día.</p>
+          <div class="eelo-facts">
+            <div><b>76</b><span>mujeres participantes</span></div>
+            <div><b>100%</b><span>de las ganancias vuelven a Creamos</span></div>
+          </div>
+          <div class="actions">
+            <a class="btn solid" href="https://mieelocatalogo.framer.media" target="_blank" rel="noopener">Ver catálogo corporativo</a>
+            <a class="btn" href="https://mi-eelo.com" target="_blank" rel="noopener">mi-eelo.com</a>
+          </div>
+        </div>
+        <svg class="tote" viewBox="0 0 240 280" role="img" aria-label="Tote bag de Mi Eelo">
+          <path d="M78 92 C78 30 162 30 162 92" fill="none" stroke="#1C1633" stroke-width="12" stroke-linecap="round"/>
+          <path d="M40 88 H200 L214 262 Q215 272 205 272 H35 Q25 272 26 262 Z" fill="#F8F9F5"/>
+          <path d="M40 88 H200 L214 262 Q215 272 205 272 H35 Q25 272 26 262 Z" fill="none" stroke="#1C1633" stroke-width="4"/>
+          <circle cx="92" cy="150" r="22" fill="#6E4EFB"/>
+          <rect x="130" y="128" width="42" height="42" rx="8" fill="#FF6633" transform="rotate(8 151 149)"/>
+          <rect x="72" y="196" width="62" height="20" rx="10" fill="#FF8AEA" stroke="#1C1633" stroke-width="2"/>
+          <rect x="150" y="186" width="18" height="52" rx="9" fill="#00DD88"/>
+        </svg>
       </div>
     </section>
 
