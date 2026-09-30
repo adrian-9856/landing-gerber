@@ -283,7 +283,7 @@ footer{padding-block:32px 48px;font-size:.9rem;color:var(--soft);display:flex;fl
 .btn.qr-open-top{min-height:40px;padding:0 16px;font-size:.95rem}
 @media (max-width:560px){.btn.qr-open-top{display:none}}
 
-/* Mi Eelo: material promocional (tarjeta que se abre) */
+/* mi eelo: material promocional (tarjeta que se abre) */
 .eelo{background:var(--pink);color:var(--ink);clip-path:polygon(0 0,calc(100% - 48px) 0,100% 48px,100% 100%,0 100%);border-radius:0 0 24px 24px}
 .eelo-head{all:unset;box-sizing:border-box;display:grid;grid-template-columns:72px minmax(0,1fr) 32px;gap:20px;align-items:center;width:100%;padding:24px clamp(20px,4vw,40px);cursor:pointer}
 .eelo-head:focus-visible{outline:2px solid var(--ink);outline-offset:-8px;border-radius:14px}
@@ -309,6 +309,25 @@ footer{padding-block:32px 48px;font-size:.9rem;color:var(--soft);display:flex;fl
   .eelo-pad{padding:0 20px 24px}
 }
 @media (prefers-reduced-motion:reduce){.eelo-body{transition:none}}
+
+/* botones "Ver más": esconden lo grande hasta que la persona lo pide */
+.more-btn{--t:var(--ink);display:inline-flex;align-items:center;gap:12px;margin-top:8px;min-height:48px;padding:0 14px 0 22px;border-radius:999px;border:1.5px solid var(--ink);background:transparent;color:var(--ink);font:600 1rem var(--font);cursor:pointer;transition:background .15s,color .15s}
+.more-btn:hover{background:var(--ink);color:#FFFFFF;--t:#FFFFFF}
+.more-btn .plus{width:24px;height:24px}
+.more-btn[aria-expanded="true"] .plus::after{transform:rotate(0)}
+.more-body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .35s ease}
+.more-btn[aria-expanded="true"] + .more-body{grid-template-rows:1fr}
+.more-body>div{overflow:hidden}
+.more-pad{padding-block:24px 36px}
+.more-pad>.app{margin-top:0}
+.waze.folded{grid-template-columns:minmax(0,1fr)}
+.waze .more-btn{--t:#FFFFFF;color:#FFFFFF;border-color:rgba(255,255,255,.55);margin-top:26px}
+.waze .more-btn:hover{background:#FFFFFF;color:var(--ink);--t:var(--ink)}
+.waze .more-pad{padding-block:30px 4px;display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(28px,5vw,64px);align-items:start}
+.waze .more-pad .never{margin-top:0}
+@media (max-width:900px){.waze .more-pad{grid-template-columns:minmax(0,1fr)}}
+@media (prefers-reduced-motion:reduce){.more-body{transition:none}}
+.waze .more-pad.route-only{grid-template-columns:minmax(0,1fr);max-width:640px}
 </style>
 
 <div class="faja" aria-hidden="true"><canvas class="jaspe"></canvas></div>
@@ -376,7 +395,7 @@ footer{padding-block:32px 48px;font-size:.9rem;color:var(--soft);display:flex;fl
           <article class="prog prog-pink">
             <button class="prog-head" type="button" aria-expanded="false" aria-controls="p3">
               <span class="shape" aria-hidden="true"><i class="sh-hpill"></i></span>
-              <span class="prog-name">Mi Eelo<small>Empresa social textil</small></span>
+              <span class="prog-name">mi eelo<small>Empresa social textil</small></span>
               <span class="plus" aria-hidden="true"></span>
             </button>
             <div class="prog-body" id="p3"><div><div class="prog-pad">
@@ -404,6 +423,8 @@ footer{padding-block:32px 48px;font-size:.9rem;color:var(--soft);display:flex;fl
         <h2>Un espacio para sentir, hablar y sanar</h2>
         <p>Muchas de las personas que llegan a Creamos han vivido experiencias muy duras, como la violencia de género. En Apoyo Emocional las acompañamos, las contenemos y las fortalecemos para que ganen autonomía y bienestar.</p>
       </div>
+      <button class="more-btn" type="button" aria-expanded="false" aria-controls="gruposMore">Ver los 6 espacios que ofrecemos<span class="plus" aria-hidden="true"></span></button>
+      <div class="more-body" id="gruposMore"><div><div class="more-pad">
       <div class="groups">
         <article class="group solo">
           <span class="gtag">Individual</span>
@@ -436,21 +457,25 @@ footer{padding-block:32px 48px;font-size:.9rem;color:var(--soft);display:flex;fl
           <p>Iniciativas para transformar la masculinidad que normaliza la violencia y cortar los ciclos que se repiten.</p>
         </article>
       </div>
+      </div></div></div>
     </section>
 
     <section id="enfoque">
-      <div class="waze">
+      <div class="waze folded">
         <div>
           <span class="kicker"><i class="sh hpill"></i>Lo que me guía</span>
           <blockquote class="quote">“No podemos cambiar el pasado, así que cambiemos cómo las personas piensan, sienten y se comportan hoy.”</blockquote>
           <p class="cite">Albert Ellis, psicólogo</p>
-        </div>
+          <button class="more-btn" type="button" aria-expanded="false" aria-controls="enfoqueMore">Ver cómo trabajamos<span class="plus" aria-hidden="true"></span></button>
+          <div class="more-body" id="enfoqueMore"><div><div class="more-pad route-only">
         <ol class="route" aria-label="Cómo trabajamos en Apoyo Emocional">
           <li><span class="pin"><i></i></span><div><span class="w">Enfoque integral</span><b>Cuidamos la salud mental de la persona completa, no solo del problema</b></div></li>
           <li><span class="pin"><i></i></span><div><span class="w">Espacio seguro</span><b>Todo lo que se habla es confidencial y se escucha con respeto</b></div></li>
           <li><span class="pin"><i></i></span><div><span class="w">Siempre aprendiendo</span><b>Nos capacitamos para responder a lo que la comunidad necesita</b></div></li>
           <li><span class="pin"><i></i></span><div><span class="w">Un solo equipo</span><b>Adaptamos talleres para apoyar a los demás programas de Creamos</b></div></li>
         </ol>
+          </div></div></div>
+        </div>
       </div>
     </section>
 
@@ -466,13 +491,13 @@ footer{padding-block:32px 48px;font-size:.9rem;color:var(--soft);display:flex;fl
             <rect x="150" y="186" width="18" height="52" rx="9" fill="#00DD88"/>
           </svg>
           <span>
-            <span class="kicker">Mi Eelo · empresa social de Creamos</span>
-            <h2>¿Buscas quién te haga material promocional, como tote bags?</h2>
+            <span class="kicker">mi eelo · empresa social de Creamos</span>
+            <h2>¿Tote bags, camisetas o regalos para tu evento? Los hacemos con causa</h2>
           </span>
           <span class="plus" aria-hidden="true"></span>
         </button>
         <div class="eelo-body" id="eeloBody"><div><div class="eelo-pad">
-          <p class="lead">En Mi Eelo producimos textiles personalizados para marcas y organizaciones. Las mujeres que los hacen aprenden el oficio y reciben pago desde el primer día.</p>
+          <p class="lead">En mi eelo producimos textiles personalizados para marcas y organizaciones. Las mujeres que los hacen aprenden el oficio y reciben pago desde el primer día.</p>
           <div class="eelo-facts">
             <div><b>76</b><span>mujeres participantes</span></div>
             <div><b>100%</b><span>de las ganancias vuelven a Creamos</span></div>
@@ -616,6 +641,10 @@ document.querySelectorAll('.copy').forEach(function(btn){
 })();
 
 document.querySelectorAll('.eelo-head').forEach(function(b){
+  b.addEventListener('click', function(){ b.setAttribute('aria-expanded', b.getAttribute('aria-expanded') === 'true' ? 'false' : 'true'); });
+});
+
+document.querySelectorAll('.more-btn').forEach(function(b){
   b.addEventListener('click', function(){ b.setAttribute('aria-expanded', b.getAttribute('aria-expanded') === 'true' ? 'false' : 'true'); });
 });
 </script>
